@@ -42,8 +42,15 @@ app.set('view engine', 'ejs');
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 
+var dropList = [];
 app.get("/", function(req, res){
   let day = date.getDate();
+  List.find({}, function(err, foundList){
+    if (foundList){
+         dropList = foundList;
+    }
+  })
+
   Item.find(function(err, items){
     if (items.length == 0){
       Item.insertMany(defaultitems, function(err){
@@ -58,7 +65,7 @@ app.get("/", function(req, res){
     if (err) {
       console.log(err);
     } else {
-        res.render("list", {ListTitle: "ToDoList", newToDos: items});
+        res.render("list", {lists: dropList, ListTitle: "ToDoList", newToDos: items});
     }
   });
 });
@@ -66,7 +73,7 @@ app.get("/", function(req, res){
 app.post("/", function(req, res){
   let item = req.body.nextToDo;
   let listName = req.body.list;
-  if (item.length==0){
+  if (!item || item.length==0){
     res.redirect("/");
   } else {
     let todo = new Item ({
@@ -118,7 +125,7 @@ app.get("/:customListName", function(req, res){
         list.save();
         res.redirect("/" + customListName);
       } else {
-        res.render("list", {ListTitle: foundList.name, newToDos: foundList.items})
+        res.render("list", {lists: dropList, ListTitle: foundList.name, newToDos: foundList.items})
       }
     }
   });
