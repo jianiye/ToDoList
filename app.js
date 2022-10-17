@@ -27,16 +27,19 @@ const item1 = new Item ({
   name: "Welcome!"
 })
 const item2 = new Item ({
-  name: "Hit + to add a new todo!"
+  name: "Hit + below to add a new todo!"
 })
 const item3 = new Item ({
+  name: "Hit + above and type name to add a new list!"
+})
+const item4 = new Item ({
   name: "<-- Click here to finish a todo!"
 })
-const defaultitems = [item1, item2, item3];
+const defaultitems = [item1, item2, item3, item4];
 
 // date module
 const date = require(__dirname + "/date.js");
-
+var day = date.getDate();
 const app = express();
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
@@ -44,7 +47,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 var dropList = [];
 app.get("/", function(req, res){
-  let day = date.getDate();
   List.find({}, function(err, foundList){
     if (foundList){
          dropList = foundList;
@@ -65,7 +67,7 @@ app.get("/", function(req, res){
     if (err) {
       console.log(err);
     } else {
-        res.render("list", {lists: dropList, ListTitle: "ToDoList", newToDos: items});
+        res.render("list", {today: day, lists: dropList, ListTitle: "ToDoList", newToDos: items});
     }
   });
 });
@@ -92,6 +94,28 @@ app.post("/", function(req, res){
   }
 });
 
+app.post("/addnew", function(req, res){
+  let newlist = _.capitalize(req.body.newlistname);
+  if (!newlist){
+    res.redirect("/")
+  } else {
+  List.findOne({name: newlist}, function(err, foundList){
+    if (!err){
+      if(!foundList){
+        const list = new List({
+          name: newlist,
+          items: defaultitems
+        });
+        list.save();
+        res.redirect("/" + newlist);
+      } else {
+        res.redirect("/" + newlist);
+      }
+    }
+  });
+ }
+});
+
 app.post("/delete", function(req, res){
   let checkid = req.body.checkbox;
   let listName = req.body.listName;
@@ -113,6 +137,26 @@ app.post("/delete", function(req, res){
   })
 });
 
+app.post("/deletelist", function(req, res){
+  let listname = req.body.dellist;
+  List.findOne({name: listname}, function(err, foundList){
+    if (!err){
+      if(!foundList){
+            res.redirect("/");
+      } else {
+        let listId = foundList._id;
+        List.findByIdAndRemove(listId, function(err){
+          if (err) {
+            console.log(err);
+          } else {
+            res.redirect("/");
+          }
+        });
+      }
+    }
+  });
+});
+
 app.get("/:customListName", function(req, res){
   const customListName = _.capitalize(req.params.customListName);
   List.findOne({name: customListName}, function(err, foundList){
@@ -125,7 +169,7 @@ app.get("/:customListName", function(req, res){
         list.save();
         res.redirect("/" + customListName);
       } else {
-        res.render("list", {lists: dropList, ListTitle: foundList.name, newToDos: foundList.items})
+        res.render("list", {today: day, lists: dropList, ListTitle: foundList.name, newToDos: foundList.items})
       }
     }
   });

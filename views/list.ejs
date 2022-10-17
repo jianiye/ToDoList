@@ -1,5 +1,16 @@
 <%- include("header") -%>
 
+<div class="addnew" id="addnew">
+
+ <h1><%= today %></h1>
+  <form class="addnew" action="/addnew" method="post">
+    <input class="input" type="text" name="newlistname" placeholder="" autocomplete="off">
+    <!-- <input type="submit" style="display: none" /> -->
+    <button type="submit" name="newlist"></button>
+  </form>
+
+</div>
+
 <div class="box" id="heading">
 
     <div class="dropdown">
@@ -35,6 +46,10 @@
       <input class="input" type="text" name="nextToDo" placeholder="Next To Do" autocomplete="off">
       <button type="submit" name="list" value=<%= ListTitle%>>+</button>
     </form>
+
   </div>
+  <form class="deletelist" action="/deletelist" method="post">
+    <button type="submit" name="dellist" value=<%= ListTitle%>>-</button>
+  </form>
 </div>
 <%- include("footer") -%>
