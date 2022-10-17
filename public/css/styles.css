@@ -1,0 +1,109 @@
+body {
+  /* background-color: #FECD70; */
+  background-color: #e5e5f7;
+  opacity: 0.8;
+  background-image:  radial-gradient(#4595f7 1.4000000000000001px, transparent 1.4000000000000001px), radial-gradient(#4595f7 1.4000000000000001px, #e5e5f7 1.4000000000000001px);
+  background-size: 56px 56px;
+  background-position: 0 0,28px 28px;
+  /* background-image: repeating-linear-gradient(45deg, #E3C770 0, #E3C770 3.1px, #FECD70 0, #FECD70 50%); */
+  /* background-image: -webkit-linear-gradient(65deg, #E3C770 50%, #FECD70 50%); */
+  min-height: 1000px;
+  font-family: 'helvetica neue';
+  padding-bottom: 90px;
+}
+
+h1 {
+  color: #fff;
+  padding: 10px;
+}
+
+.box {
+  max-width: 400px;
+  margin: 30px auto;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
+}
+
+#heading {
+  background-color: #4595f7;
+  text-align: center;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.item {
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #F1F1F1;
+}
+
+.item:last-child {
+  border-bottom: 0;
+}
+
+input:checked+p {
+  text-decoration: line-through;
+  text-decoration-color: #4595f7;
+}
+
+input[type="checkbox"] {
+  margin: 20px;
+}
+
+p.todoitems{
+  margin: 0;
+  padding: 20px;
+  font-size: 20px;
+  font-weight: 200;
+  color: #00204a;
+}
+
+form.item {
+  text-align: center;
+  margin-left: 20px;
+}
+
+button {
+  min-height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border-color: transparent;
+  background-color: #4595f7;
+  color: #fff;
+  font-size: 30px;
+  padding-bottom: 6px;
+  border-width: 0;
+}
+
+input[type="text"] {
+  text-align: center;
+  height: 60px;
+  top: 10px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  font-weight: 200;
+  width: 313px;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  box-shadow: inset 0 -2px 0 0 #4595f7;
+}
+
+::placeholder {
+  color: grey;
+  opacity: 1;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  color: white;
+  height: 60px;
+  color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  font-size: 5px;
+}
