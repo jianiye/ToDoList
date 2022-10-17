@@ -5,7 +5,7 @@ const https = require("https");
 const mongoose = require("mongoose");
 
 // database
-mongoose.connect("mongodb://localhost:27017/todolistDB", {useNewUrlParser: true});
+mongoose.connect("mongodb+srv://admin-jiani:" + process.env.PASSCODE + "@jianicloud.rguorah.mongodb.net/todolistDB", {useNewUrlParser: true});
 
 const itemsSchema = new mongoose.Schema ({
   name: {
@@ -175,6 +175,10 @@ app.get("/:customListName", function(req, res){
   });
 });
 
-app.listen(process.env.PORT || 3000, function(){
-  console.log("This server is running on port 3000~");
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
+}
+app.listen(port, function(){
+  console.log("This server is running~");
 });
